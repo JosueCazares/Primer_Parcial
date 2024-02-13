@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.utl.dsm.primer_parcial.bd.ConexionMySql;
+import org.utl.dsm.primer_parcial.model.Cliente;
 import org.utl.dsm.primer_parcial.model.Empleado;
 import org.utl.dsm.primer_parcial.model.Persona;
 import org.utl.dsm.primer_parcial.model.Sucursal;
@@ -28,20 +29,21 @@ public class Prueba {
         // probarAut();
 //        ControllerAccess obCa = new ControllerAccess();
         ControllerEmpleado obCE = new ControllerEmpleado();
-        Persona p = new Persona("YAEL", "B", "C", "M", "2008/08/08", "D", "E", "F", "G", "H", "I", "J", "K");
-        Sucursal s = new Sucursal();
-        s.setIdSucursal(1);
-        User u = new User("H", "G","ra");
-        Empleado e = new Empleado("BBBB", "BBBB", "2024/08/01", "BOSsS", 10, 1, p, u, s);
+        ControllerCliente obCc = new ControllerCliente();
+//        Persona p = new Persona("YAEL", "B", "C", "M", "2008/08/08", "D", "E", "F", "G", "H", "I", "J", "K");
+//        Sucursal s = new Sucursal();
+//        s.setIdSucursal(1);
+//        User u = new User("H", "G","ra");
+//        Empleado e = new Empleado("BBBB", "BBBB", "2024/08/01", "BOSsS", 10, 1, p, u, s);
 //        //obCE.insert(e);
-        obCE.modificarEmp(e, 2);
+        //obCE.modificarEmp(e, 2);
 //Persona p = new Persona
         //obCE.delete(1);
         //obCE.activar(1);
-//           List<Empleado> lu = obCE.getAll();
-//     for(Empleado empleado: lu){
-//         System.out.println(empleado);
-//     }
+           List<Cliente> lu = obCc.getAll();
+     for(Cliente cliente: lu){
+         System.out.println(cliente);
+     }
     }
 
     public static void probarAut() {

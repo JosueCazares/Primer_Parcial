@@ -5,6 +5,7 @@
         <group name="SICEVA_V8">
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/src/java/org/utl/dsm/primer_parcial/rest/AccessRest.java</file>
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/src/java/org/utl/dsm/primer_parcial/model/efirma.java</file>
+            <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/src/java/org/utl/dsm/primer_parcial/controller/ControllerCliente.java</file>
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/web/html/efirma.html</file>
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/web/html/getAll.html</file>
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/src/java/org/utl/dsm/primer_parcial/rest/EmpleadoRest.java</file>
@@ -14,8 +15,10 @@
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/web/html/main.html</file>
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/web/js/acceso.js</file>
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/web/html/update.html</file>
+            <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/src/java/org/utl/dsm/primer_parcial/rest/ClienteREST.java</file>
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/src/java/org/utl/dsm/primer_parcial/controller/ControllerEmpleado.java</file>
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/web/css/principalStyle.css</file>
+            <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/src/java/org/utl/dsm/primer_parcial/model/Cliente.java</file>
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/web/html/create.html</file>
             <file>file:/C:/Users/josue/OneDrive/Escritorio/Universidad/5to%20Cuatri/APW_4.0/Primer_Parcial/src/java/org/utl/dsm/primer_parcial/controller/Prueba.java</file>
         </group>
