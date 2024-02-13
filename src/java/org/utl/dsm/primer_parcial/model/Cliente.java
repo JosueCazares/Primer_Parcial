@@ -11,7 +11,7 @@ package org.utl.dsm.primer_parcial.model;
 public class Cliente {
     private int idCliente;
     private String email;
-    private String fechaRegistro;
+    //private String fechaRegistro;
     private int estatus;
     private Persona persona;
 
@@ -31,13 +31,6 @@ public class Cliente {
         this.email = email;
     }
 
-    public String getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(String fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
-    }
 
     public int getEstatus() {
         return estatus;
@@ -58,17 +51,15 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String email, String fechaRegistro, int estatus, Persona persona) {
+    public Cliente(String email, int estatus, Persona persona) {
         this.email = email;
-        this.fechaRegistro = fechaRegistro;
         this.estatus = estatus;
         this.persona = persona;
     }
 
-    public Cliente(int idCliente, String email, String fechaRegistro, int estatus, Persona persona) {
+    public Cliente(int idCliente, String email, int estatus, Persona persona) {
         this.idCliente = idCliente;
         this.email = email;
-        this.fechaRegistro = fechaRegistro;
         this.estatus = estatus;
         this.persona = persona;
     }
@@ -79,7 +70,6 @@ public class Cliente {
         sb.append("Cliente{");
         sb.append("idCliente=").append(idCliente);
         sb.append(", email=").append(email);
-        sb.append(", fechaRegistro=").append(fechaRegistro);
         sb.append(", estatus=").append(estatus);
         sb.append(", persona:").append(persona != null ? persona.toString() : "null");
         sb.append('}');
