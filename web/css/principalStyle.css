@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+*{
+    box-sizing: border-box;
+}
+body{
+    background-color: #fff;
+    font-family: 'Roboto',sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0;
+    overflow-y: scroll;
+}
+
+
+.btnf{
+     background-color: #371172;
+    color: #fff;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1),0 6px 6px rgba(0, 0, 0, 0.1);
+    padding: 14px 40px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.nav{
+    background-color: #fff;
+    width: 100vw;
+    height: 70px;
+    border-bottom: 1px #DFDDDD solid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-nav {
+   cursor: pointer;
+   display: inline-block;
+   background: #848484;
+   padding: 15px;
+   font-family: inherit;
+    font-size: 16px;
+    border: 0;
+    border-radius: 5px;
+}
+.btsn{
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+    background: #848484;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 16px;
+    border: 0;
+    border-radius: 5px;
+}
+.logo{
+   height: 30px; 
+   width: 30px;    
+   transform: translate(20px,-5px); 
+}
+
+.btn-crud{
+    background-color: #fff;
+    color: #371172;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1),0 6px 6px rgba(0, 0, 0, 0.1);
+    padding: 14px 40px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.menu{
+      background-color: #fff;
+    width: 100vw;
+    height: 70px;
+    border-bottom: 1px #DFDDDD solid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.crud{
+    display: flex;
+    gap: 10px;
+}
+
+
