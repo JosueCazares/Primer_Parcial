@@ -13,6 +13,7 @@ import org.utl.dsm.primer_parcial.bd.ConexionMySql;
 import org.utl.dsm.primer_parcial.model.Cliente;
 import org.utl.dsm.primer_parcial.model.Empleado;
 import org.utl.dsm.primer_parcial.model.Persona;
+import org.utl.dsm.primer_parcial.model.Producto;
 import org.utl.dsm.primer_parcial.model.Sucursal;
 import org.utl.dsm.primer_parcial.model.User;
 
@@ -29,6 +30,7 @@ public class Prueba {
         // probarAut();
 //        ControllerAccess obCa = new ControllerAccess();
         ControllerEmpleado obCE = new ControllerEmpleado();
+        ControllerProducto obPd = new ControllerProducto();
         ControllerCliente obCc = new ControllerCliente();
 //        Persona p = new Persona("YAEL", "B", "C", "M", "2008/08/08", "D", "E", "F", "G", "H", "I", "J", "K");
 //        Sucursal s = new Sucursal();
@@ -40,9 +42,9 @@ public class Prueba {
 //Persona p = new Persona
         //obCE.delete(1);
         //obCE.activar(1);
-           List<Cliente> lu = obCc.getAll();
-     for(Cliente cliente: lu){
-         System.out.println(cliente);
+           List<Producto> lu = obPd.buscar("10");
+     for(Producto producto: lu){
+         System.out.println(producto);
      }
     }
 
