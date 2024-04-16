@@ -41,6 +41,8 @@ public class ControllerCliente {
                 //faltan datos 
                 p.setIdPersona(rs.getInt("idPersona"));
                 p.setNombre(rs.getString("nombre"));
+                p.setApPat(rs.getString("apellidoPaterno"));
+                p.setApMat(rs.getString("apellidoMaterno"));
                 p.setTelefono(rs.getString("telefono"));
                 p.setRfc(rs.getString("rfc"));
 
@@ -86,8 +88,12 @@ public class ControllerCliente {
                 //faltan datos 
                 p.setIdPersona(rs.getInt("idPersona"));
                 p.setNombre(rs.getString("nombre"));
+                p.setApPat(rs.getString("apellidoPaterno"));
+                p.setApMat(rs.getString("apellidoMaterno"));
                 p.setTelefono(rs.getString("telefono"));
                 p.setRfc(rs.getString("rfc"));
+                p.setcpPersona(rs.getString("codigoPostal"));
+                p.setDomicilio(rs.getString("domicilio"));
 
                 Cliente c = new Cliente();
                 c.setIdCliente(rs.getInt("idCliente"));

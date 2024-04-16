@@ -1,0 +1,83 @@
+
+
+<div>
+    <div id="datos">
+        <button type="button" class="buton" onclick="cargaCatalogoVenta();">Catalogo</button>
+        <div class="nav-bus">
+            <label for="txtClienteV">Cliente a buscar por telefono:</label>
+            <input type="search" class="" id="txtClienteV" placeholder="Buscar..">
+            <button type="button" class="buton" onclick="buscarClienteV();">Buscar</button>
+        </div>
+        <div id="">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Direccion</th>
+                        <th>Telefono</th>
+                        <th>Correo</th>
+                        <th>Añadir</th>
+                    </tr>
+                </thead>
+                <tbody id="tbBusquedaClienteV">
+
+                </tbody>
+            </table>
+        </div>
+       
+    </div> 
+
+    <div id="datos">
+        <div class="nav-bus">
+            <label for="txtProductoV">Producto a buscar</label>
+            <input type="search" id="txtProductoV" >
+            <button type="button" class="buton" onclick="buscarProductoV();">Buscar</button>
+        </div>
+        <div id="">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Forma farmaceutica</th>
+                        <th>Presentacion</th>
+                        <th>Concentracion</th>
+                        <th>Añadir</th>
+
+                    </tr>
+                </thead>
+                <tbody id="tbBusquedaProdutoV">
+
+                </tbody>
+            </table>
+        </div>
+    </div> 
+    <div id="venta">
+        <div>
+            <h1>Venta</h1>
+            <div class="nav-bus">
+                <label>Nombre Cliente:</label>
+                <input type="search" id="nameClienteV" disabled>        
+            </div>
+            <table>
+                <thead>
+                <th>ID</th> 
+                <th>NOMBRE</th> 
+                <th>COSTO</th> 
+                <th>CANTIDAD</th> 
+                <th>IMPORTE</th> 
+                <th>Eliminar</th> 
+                </thead>
+                <tbody id="tblProductosV">
+
+                </tbody>
+            </table> 
+        </div>
+        <div>
+            <h3 id="">Total:</h3>
+            <input type="number" id="txtTotal" disabled>    
+        </div>
+        <button type="button" class="buton" onclick="generarVenta();">Generar Venta</button>
+        <button type="button" class="buton" onclick="cancelarVenta();">Cancelar Venta</button>
+    </div> 
+</div>

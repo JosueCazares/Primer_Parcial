@@ -2,7 +2,22 @@
 /* global Swal */
 let Swal;
 let empleados;
+let cliente;
+let clientes;
+let productos;
+let productosVenta = [];
+
+const search = document.querySelector('.search');
+const btn = document.querySelector('.btn');
+const input = document.querySelector('.input');
+
+//btn.addEventListener('click', () => {
+//    search.classList.toggle('active');
+//    input.focus();
+//});
+
 let token = localStorage.getItem("token");
+let empleado = localStorage.getItem("empleado");
 function ingresar() {
     let user = document.getElementById("txtUser").value;
     let password = document.getElementById('txtPass').value;
@@ -24,16 +39,19 @@ function ingresar() {
             }
     ).then(response => response.json())
             .then(response => {
-                //alert(response.result);
-                if (response.id > 0 && response != null) {
+                //alert(response.idEmpleado);
+                if (response.idEmpleado > 0 && response != null) {
                     //Swal.fire("ACCESSO CONCEDIDO!");
-                    localStorage.setItem("token", response.token);
+                    //alert(response.token);
+                    localStorage.setItem("token", response.user.token);
+                    localStorage.setItem("empleado", response.idEmpleado);
+                    //alert("empleado"+localStorage.getItem("empleado"));
                     window.location.href = "http://localhost:8080/Primer_Parcial/html/main.html";
                     //alert(response.token);
-                } else if (response.id == 0) {
-                    Swal.fire("ACCESSO DENEGADO!");
+                } else if (response.idEmpleado == 0) {
+                    alert("ACCESSO DENEGADO!");
                 } else {
-                    Swal.fire(response.error);
+                    alert(response.error);
                 }
             });
 }
@@ -91,7 +109,7 @@ function logout() {
 }
 
 function getAll() {
-    //let token = localStorage.getItem("token");
+    let token = localStorage.getItem("token");
     let param = {t: token};
     let ruta = "http://localhost:8080/Primer_Parcial/api/empleado/getAll";
     fetch(ruta,
@@ -129,7 +147,7 @@ function getAll() {
                             + empleado.persona.estado + "<br>"
                             + empleado.persona.telefono + "<br>";
                     let dato5 = empleado.user.id + "<br>"
-                            + empleado.user.nombre + "<br>"
+                            + empleado.user.usuario + "<br>"
                     let dato6 = empleado.sucursal.nombre + "<br>"
                             + empleado.sucursal.domicilio + "<br>"
                             + empleado.sucursal.colonia + "<br>"
@@ -150,8 +168,8 @@ function getAll() {
 
                     } else if (empleado.activo === 1) {
 
-                        datos += "<td> <button type='button' class='btn btn-light' onclick='test(" + i + ")'> Modificar</button> </td>";
-                        datos += "<td> <button type='button' class='btn btn-danger' onclick='eliminarEmpl(" + empleado.idEmpleado + ")'> Eliminar</button> </td>";
+                        datos += "<td> <button type='button' class='buton' onclick='test(" + i + ")'> Modificar</button> </td>";
+                        datos += "<td> <button type='button' class='buton' onclick='eliminarEmpl(" + empleado.idEmpleado + ")'> Eliminar</button> </td>";
                     }
                     i++;
                 });
@@ -160,7 +178,62 @@ function getAll() {
             });
 
 }
+function getAllV() {
+    let token = localStorage.getItem("token");
+    let param = {t: token};
+    let ruta = "http://localhost:8080/Primer_Parcial/api/venta/getAll";
+    fetch(ruta,
+            {method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                body: new URLSearchParams(param)
+            }
+    ).then(response => response.json())
+            .then(response => {
+                //console.log(response.result);
 
+
+                console.log(response);
+
+                let detalle = response;
+                let datos = "";
+                let i = 0;
+                detalle.forEach((detalle) => {
+                    let dato1 = detalle.producto.nombre + "<br>"
+                            + detalle.producto.nombreGenerico + "<br>"
+                            + detalle.producto.formaFarmaceutica + "<br>"
+                            + detalle.producto.unidadMedida + "<br>"
+                            + detalle.producto.presentacion + "<br>"
+                            + detalle.producto.precioVenta + "<br>";
+                    //+ empleado.activo+"<br>";
+                    let dato2 = detalle.venta.fechaHora + "<br>";
+                    let dato3 = detalle.venta.cliente.email + "<br>"
+                            + detalle.venta.cliente.persona.nombre + "<br>"
+                            + detalle.venta.cliente.persona.apPat + "<br>"
+                            + detalle.venta.cliente.persona.apMat + "<br>"
+                            + detalle.venta.cliente.persona.telefono + "<br>"
+                            + detalle.venta.cliente.persona.estado + "<br>";
+
+                    let dato4 = detalle.venta.empleado.email + "<br>"
+                            + detalle.venta.empleado.puesto + "<br>"
+                            + detalle.venta.empleado.persona.nombre + "<br>"
+                            + detalle.venta.empleado.persona.apPat + "<br>"
+                            + detalle.venta.empleado.persona.apMat + "<br>"
+                            + detalle.venta.empleado.persona.telefono + "<br>";
+                    datos += "<tr>";
+                    datos += "<td>" + dato1 + "</td>";
+                    datos += "<td>" + dato2 + "</td>";
+                    datos += "<td>" + dato3 + "</td>";
+                    datos += "<td>" + dato4 + "</td>";
+                    datos += "<td>" + detalle.cantidad + "</td>";
+                    datos += "<td>" + detalle.precioVenta + "</td>";
+
+                    i++;
+                });
+                document.getElementById("tablaVenta").innerHTML = datos;
+
+            });
+
+}
 
 async function cargaGetAll() {
     try {
@@ -213,6 +286,17 @@ async function cargaGet() {
     // Insertar HTML en el elemento con ID 'contenido'
     document.getElementById('contenido').innerHTML = html;
     getAll();
+}
+async function cargaVenta() {
+    const response = await fetch("venta.html");
+    const html = await response.text();
+    document.getElementById('contenido').innerHTML = html;
+}
+async function cargaCatalogoVenta() {
+    const response = await fetch("ventaCatalogo.html");
+    const html = await response.text();
+    document.getElementById('contenido').innerHTML = html;
+    getAllV();
 }
 async function cargaCreate() {
     const response = await fetch("create.html");
@@ -706,7 +790,7 @@ function crearEfirma() {
         }
     }
     alert("Fecha:" + fecha + " y hora:" + hora + " de la creacion.");
-    alert("EFIRMA: "+efirma);
+    alert("EFIRMA: " + efirma);
     let param = {cadena: efirma};
     let ruta = "http://localhost:8080/Primer_Parcial/api/empleado/efirma";
     fetch(ruta,
@@ -719,7 +803,278 @@ function crearEfirma() {
                 if (response.success === true) {
                     alert("Creada");
                 } else {
-                     alert("No se creada");
+                    alert("No se creada");
+                }
+            });
+}
+
+
+function getAllCliente() {
+    //let parametros = {"telefono": telefono, 
+    //  "token":localStorage.getItem("token")};
+    let ruta = "http://localhost:8080/Primer_Parcial/api/cliente/getAllClie";
+    fetch(ruta,
+            {method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                body: new URLSearchParams()
+            }
+    ).then(response => response.json())
+            .then(response => {
+//                if (response.success === true) {
+//                    alert("Encontrado");
+                cargaResultadoBC(response);
+//                } else {
+//                     alert("No se encuentra");
+//                }
+            });
+
+}
+function buscarClienteV() {
+    let telefono = document.getElementById("txtClienteV").value;
+    //alert("Dato a buscar: "+telefono);
+    let parametros = {"telefono": telefono,
+        "token": localStorage.getItem("token")};
+    let ruta = "http://localhost:8080/Primer_Parcial/api/cliente/buscar";
+    fetch(ruta,
+            {method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                body: new URLSearchParams(parametros)
+            }
+    ).then(response => response.json())
+            .then(response => {
+//                if (response.success === true) {
+//                    alert("Encontrado");
+                cargaResultadoBC(response);
+//                } else {
+//                     alert("No se encuentra");
+//                }
+            });
+
+}
+
+function cargaResultadoBC(response) {
+    let datosTabla = "";
+    if (response.error != null) {
+        datosTabla += "ERROR";
+        alert("error");
+    } else if (response.length == 0) {
+        datosTabla += "Cliente inexistente";
+        alert("Cliente inexistente");
+    } else if (response.length > 0) {
+        for (let i = 0; i < response.length; i++) {
+            clientes = response;
+            //alert("c"+cliente[i].persona.nombre);
+            let nombre = response[i].persona.nombre + " " + response[i].persona.apPat + "" + response[i].persona.apMat;
+            let direccion = response[i].persona.domicilio + "<br>" + response[i].persona.cpPersona;
+            datosTabla += "<tr>";
+            datosTabla += "<td>" + nombre + "</td>";
+            datosTabla += "<td>" + direccion + "</td>";
+            datosTabla += "<td>" + response[i].persona.telefono + "</td>";
+            datosTabla += "<td>" + response[i].email + "</td>";
+            //alert("a"+response[i]);
+            datosTabla += "<td><button type='button' class='buton' onclick='addCliente(" + i + ");'>Add</button></td>";
+            datosTabla += "</tr>";
+        }
+        document.getElementById("tbBusquedaClienteV").innerHTML = datosTabla;
+    }
+
+}
+
+
+function addCliente(i) {
+
+    cliente = clientes[i];
+
+    let nombreCliente = cliente.persona.nombre + " " + cliente.persona.apPat + " " + cliente.persona.apMat;
+    document.getElementById("nameClienteV").value = nombreCliente;
+}
+
+
+
+
+
+function getAllP() {
+    let ruta = "http://localhost:8080/Primer_Parcial/api/producto/getAllPr";
+    fetch(ruta,
+            {method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                body: new URLSearchParams()
+            }
+    ).then(response => response.json())
+            .then(response => {
+                cargaResultadoBCP(response);
+            });
+}
+function buscarProductoV() {
+    let idP = document.getElementById("txtProductoV").value;
+    //alert("Dato a buscar: "+telefono);
+    let parametros = {"idP": idP,
+        "token": localStorage.getItem("token")};
+    let ruta = "http://localhost:8080/Primer_Parcial/api/producto/buscar";
+    fetch(ruta,
+            {method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                body: new URLSearchParams(parametros)
+            }
+    ).then(response => response.json())
+            .then(response => {
+                cargaResultadoBCP(response);
+            });
+}
+
+
+function cargaResultadoBCP(response) {
+    let datosTabla = "";
+    if (response.error != null) {
+        datosTabla += "ERROR";
+        alert("error");
+    } else if (response.length == 0) {
+        datosTabla += "Producto inexistente";
+        alert("Producto inexistente");
+    } else if (response.length > 0) {
+        for (let i = 0; i < response.length; i++) {
+            productos = response;
+            datosTabla += "<tr>";
+            datosTabla += "<td>" + response[i].nombre + "</td>";
+            datosTabla += "<td>" + response[i].precioVenta + "</td>";
+            datosTabla += "<td>" + response[i].formaFarmaceutica + "</td>";
+            datosTabla += "<td>" + response[i].presentacion + "</td>";
+            datosTabla += "<td>" + response[i].concentracion + "</td>";
+            datosTabla += "<td><button type='button' class='buton' onclick='seleccionarPV(" + i + ");'>Add</button></td>";
+            datosTabla += "</tr>";
+        }
+        document.getElementById("tbBusquedaProdutoV").innerHTML = datosTabla;
+    }
+
+}
+function addProducto(i) {
+    console.log("obj" + i);
+    let datosTabla = "";
+    //alert("agua");
+    productosVenta = productos[i];
+
+    datosTabla += "<tr>";
+    datosTabla += "<td>" + productosVenta.idProducto + "</td>";
+    datosTabla += "<td>" + productosVenta.nombre + "</td>";
+    datosTabla += "<td>" + productosVenta.precioVenta + "</td><br>";
+    datosTabla += "<td>" + "cantidad" + "</td><br>";
+    datosTabla += "<td>" + "importe" + "</td><br>";
+    datosTabla += "<td><button type='button' class='buton' onclick='seleccionarPV(" + i + ");'>Eliminar</button></td>";
+    datosTabla += "</tr>";
+    document.getElementById("tblProductosV").innerHTML = datosTabla;
+
+}
+
+function seleccionarPV(i) {
+    let producto = productos[i];
+    productosVenta.push(producto);
+    let tblBody = document.getElementById("tblProductosV");
+    let hilera = document.createElement("tr");
+    let celda1 = document.createElement("td");
+    let textoCelda1 = document.createTextNode(producto.idProducto);
+    let celda2 = document.createElement("td");
+    let textoCelda2 = document.createTextNode(producto.nombre);
+    let celda3 = document.createElement("td");
+    let textoCelda3 = document.createTextNode(producto.precioVenta);
+    let celda4 = document.createElement("td");
+    let textoCelda4 = document.createTextNode("1");
+    let celda5 = document.createElement("td");
+    let textoCelda5 = document.createTextNode("nulo");
+    //let celda6 = document.createElement("td");
+    let botonEliminar = document.createElement("button");
+    botonEliminar.className = "buton";
+    let textoCelda6 = document.createTextNode("Eliminar");
+
+
+    celda1.appendChild(textoCelda1);
+    celda2.appendChild(textoCelda2);
+    celda3.appendChild(textoCelda3);
+    celda4.appendChild(textoCelda4);
+    celda5.appendChild(textoCelda5);
+    botonEliminar.appendChild(textoCelda6);
+    hilera.appendChild(celda1);
+    hilera.appendChild(celda2);
+    hilera.appendChild(celda3);
+    hilera.appendChild(celda4);
+    hilera.appendChild(celda5);
+    hilera.appendChild(botonEliminar);
+    tblBody.appendChild(hilera);
+    //alert("a");
+    calcularTotal(i);
+
+}
+
+
+function calcularTotal() {
+    let total = 0;
+    for (let i = 0; i < productosVenta.length; i++) {
+        total += productosVenta[i].precioVenta;
+    }
+    document.getElementById("txtTotal").value = total;
+    //alert("total: " + total);
+}
+
+
+
+
+function cancelarVenta() {
+    document.getElementById("txtClienteV").value = "";
+    document.getElementById("txtProductoV").value = "";
+    document.getElementById("nameClienteV").value = "";
+    document.getElementById("tbBusquedaClienteV").innerHTML = "";
+    document.getElementById("tbBusquedaProdutoV").innerHTML = "";
+    document.getElementById("tblProductosV").innerHTML = "";
+
+
+    cliente = null;
+    clientes = null;
+    productos = null;
+    productosVenta = null;
+    productosVenta = [];
+}
+
+function generarVenta() {
+    let listaDV = [];
+    for (let i = 0; i < productosVenta.length; i++) {
+        let detalleVenta = {
+            producto: productosVenta[i],
+            estatus: "1",
+            cantidad: 1,
+            precioVenta: productosVenta[i].precioVenta
+        };
+        listaDV.push(detalleVenta);
+    }
+    let venta = {
+        "fechaHora": "2024-03-06 7:24:04",
+        estatus: 1,
+        cliente: {
+            "idCliente": cliente.idCliente
+        },
+        empleado: {
+            "idEmpleado": localStorage.getItem("empleado"),
+            sucursal: {
+                idSucursal: "1"
+            }
+        },
+        listaDV: listaDV
+    };
+    alert("cantidad: " + listaDV.length);
+
+    //JSON.stringify(venta);
+    //alert("cliete: " + venta.cliente.persona.nombre);
+    //let param = {venta: JSON.stringify(venta)};
+    let param = {venta: JSON.stringify(venta)};
+    fetch("http://localhost:8080/Primer_Parcial/api/venta/create",
+            {method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                body: new URLSearchParams(param)
+            }
+    ).then(response => response.json())
+            .then(response => {
+                if (response.succes) {
+                    alert("mal");
+                } else {
+                    alert("venta generada");
                 }
             });
 }

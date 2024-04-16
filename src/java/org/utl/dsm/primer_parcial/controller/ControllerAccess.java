@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.utl.dsm.primer_parcial.bd.ConexionMySql;
+import org.utl.dsm.primer_parcial.model.Empleado;
+import org.utl.dsm.primer_parcial.model.Sucursal;
 import org.utl.dsm.primer_parcial.model.User;
 
 /**
@@ -17,6 +19,7 @@ import org.utl.dsm.primer_parcial.model.User;
 public class ControllerAccess {
 
     public void logIn(User u) throws SQLException {
+        
         String query = """
                  SELECT idUsuario FROM usuario WHERE usuario='%S' && passw='%S';
                  """;
@@ -29,7 +32,9 @@ public class ControllerAccess {
 
         if (rs.next()) {
             u.setId(rs.getInt("idUsuario"));
+            
         }
+        
         rs.close();
         stmt.close();
         conn.close();

@@ -24,7 +24,7 @@ import org.utl.dsm.primer_parcial.model.Cliente;
 @Path("cliente")
 public class ClienteREST {
     @Path("getAllClie")
-    @GET
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll(){
         

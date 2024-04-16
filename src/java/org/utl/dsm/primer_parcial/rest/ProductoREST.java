@@ -24,7 +24,7 @@ import org.utl.dsm.primer_parcial.model.Producto;
 @Path("producto")
 public class ProductoREST {
     @Path("getAllPr")
-    @GET
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll(){
         
@@ -43,6 +43,20 @@ public class ProductoREST {
 //        System.out.println("El telefono: "+telefon);
         ControllerProducto objPr= new ControllerProducto();
         List<Producto> listaProducto = objPr.buscar(idP);
+        //System.out.println(listaProducto);
+        Gson objGS= new Gson();
+        String out=objGS.toJson(listaProducto);
+        return Response.ok(out).build();
+    }
+    @Path("buscarnombre")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response buscarNombre(@FormParam("nombre") @DefaultValue("") String nombre){
+        //System.out.println(idP);
+//        String telefon = "477";
+//        System.out.println("El telefono: "+telefon);
+        ControllerProducto objPr= new ControllerProducto();
+        List<Producto> listaProducto = objPr.buscarNombre(nombre);
         //System.out.println(listaProducto);
         Gson objGS= new Gson();
         String out=objGS.toJson(listaProducto);

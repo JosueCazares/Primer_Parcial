@@ -17,6 +17,8 @@ import java.sql.SQLException;
 import java.util.List;
 import org.utl.dsm.primer_parcial.controller.ControllerAccess;
 import org.utl.dsm.primer_parcial.controller.ControllerEmpleado;
+import org.utl.dsm.primer_parcial.model.Empleado;
+import org.utl.dsm.primer_parcial.model.Persona;
 import org.utl.dsm.primer_parcial.model.User;
 
 /**
@@ -29,9 +31,15 @@ public class AccessRest {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(@FormParam("user") @DefaultValue("") String user){
+        Persona p = new Persona();
+        Empleado e  =  new Empleado();
+        ControllerEmpleado objCe = new ControllerEmpleado();
     Gson objGs = new Gson();
     User u = objGs.fromJson(user, User.class);
     String out ="";
+    e.setPersona(p);
+    u.getId();
+    e.setUsuario(u);
     u.encode();
         ControllerAccess objCa = new ControllerAccess();
         try {
@@ -39,8 +47,11 @@ public class AccessRest {
             if(u.getId()>0){
                 u.setToken();
                 objCa.saveToken(u);
+                objCe.identificarEmp(u, e);
+                System.out.println("Este es el id: "+e.getIdEmpleado());
             }
-            out=objGs.toJson(u);
+            out=objGs.toJson(e);
+            System.out.println("RESPUESTA"+out);
         } catch (SQLException ex) {
             out="""
                 {"ERROR":"Problemas en el servidor de la base de datos,contacta a tu administrador"}

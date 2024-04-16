@@ -4,6 +4,8 @@
  */
 package org.utl.dsm.primer_parcial.model;
 
+import java.util.List;
+
 /**
  *
  * @author josue
@@ -15,6 +17,7 @@ public class Venta {
     private int estatus;
     private Cliente cliente;
     private Empleado empleado;
+    private List<DetalleVenta> listaDV;
 
     public int getIdVenta() {
         return idVenta;
@@ -56,22 +59,32 @@ public class Venta {
         this.empleado = empleado;
     }
 
+    public List<DetalleVenta> getListaDV() {
+        return listaDV;
+    }
+
+    public void setListaDV(List<DetalleVenta> listaDV) {
+        this.listaDV = listaDV;
+    }
+
     public Venta() {
     }
 
-    public Venta(int idVenta, String fechaHora, int estatus, Cliente cliente, Empleado empleado) {
+    public Venta(int idVenta, String fechaHora, int estatus, Cliente cliente, Empleado empleado, List<DetalleVenta> listaDV) {
         this.idVenta = idVenta;
         this.fechaHora = fechaHora;
         this.estatus = estatus;
         this.cliente = cliente;
         this.empleado = empleado;
+        this.listaDV = listaDV;
     }
 
-    public Venta(String fechaHora, int estatus, Cliente cliente, Empleado empleado) {
+    public Venta(String fechaHora, int estatus, Cliente cliente, Empleado empleado, List<DetalleVenta> listaDV) {
         this.fechaHora = fechaHora;
         this.estatus = estatus;
         this.cliente = cliente;
         this.empleado = empleado;
+        this.listaDV = listaDV;
     }
 
     @Override
@@ -81,10 +94,12 @@ public class Venta {
         sb.append("idVenta=").append(idVenta);
         sb.append(", fechaHora=").append(fechaHora);
         sb.append(", estatus=").append(estatus);
-        sb.append(", cliente:").append(cliente != null ? cliente.toString() : "null");
-        sb.append(", empleado:").append(empleado != null ? empleado.toString() : "null");
+        sb.append(", cliente=").append(cliente);
+        sb.append(", empleado=").append(empleado);
+        sb.append(", listaDV=").append(listaDV);
         sb.append('}');
         return sb.toString();
     }
-
+    
+    
 }

@@ -14,9 +14,9 @@ import java.sql.SQLException;
  */
 public class ConexionMySql {
 
-    Connection conn;
+    static Connection conn;
 
-    public Connection open() {
+    public static Connection open() {
         String u = "root";
         String c = "12345";
         String url = "jdbc:mysql://127.0.0.1:3306/primer_parcial";

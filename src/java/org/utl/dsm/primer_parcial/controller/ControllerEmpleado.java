@@ -104,6 +104,67 @@ public class ControllerEmpleado {
         return listaEmpleados;
     }
 
+    public List<Empleado> getAllOptimizado(int id) {
+        List<Empleado> listaEmpleados = new ArrayList<>();
+        String query = "SELECT * FROM v_empleado WHERE id=?";
+        try (Connection con = ConexionMySql.open(); PreparedStatement pstmt = con.prepareStatement(query);) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery();) {
+                while (rs.next()) {
+                    User u = new User(rs.getInt("idUsuario"),
+                            rs.getString("nombreUsuario"),
+                            null,
+                            null,
+                            null);
+                    Sucursal s = new Sucursal();
+                    s.setIdSucursal(rs.getInt("idSucursal"));
+                    s.setNombre(rs.getString("nombreSucursal"));
+                    s.setTitular(rs.getString("titular"));
+                    s.setRfc(rs.getString("rfcTitular"));
+                    s.setDomicilio(rs.getString("domicilioSucursal"));
+                    s.setColonia(rs.getString("coloniaSucursal"));
+                    s.setCodigoPostal(rs.getString("cpSucursal"));
+                    s.setCiudad(rs.getString("ciudadSucursal"));
+                    s.setEstado(rs.getString("estadoSucursal"));
+                    s.setTelefono(rs.getString("telefonoSucursal"));
+                    s.setLongitud(rs.getString("longitud"));
+                    s.setLatitud(rs.getString("latitud"));
+                    s.setEstatus(rs.getInt("estatusSucursal"));
+                    //listo 
+                    Persona p = new Persona();
+                    //faltan datos 
+                    p.setNombre(rs.getString("nombre"));
+                    p.setApPat(rs.getString("apPat"));
+                    p.setApMat(rs.getString("apMAt"));
+                    p.setGenero(rs.getString("genero"));
+                    p.setFechaNac(rs.getString("fechaNacimiento"));
+                    p.setRfc(rs.getString("rfc"));
+                    p.setCurp(rs.getString("curp"));
+                    p.setDomicilio(rs.getString("domicilio"));
+                    p.setcpPersona(rs.getString("cpPersona"));
+                    p.setCiudad(rs.getString("ciudad"));
+                    p.setEstado(rs.getString("estado"));
+                    p.setTelefono(rs.getString("telefono"));
+                    Empleado e = new Empleado();
+                    e.setIdEmpleado(rs.getInt("idEmpleado"));
+                    e.setEmail(rs.getString("email"));
+                    e.setCodigo(rs.getString("codigo"));
+                    e.setFechaIngreso(rs.getString("fechaIngreso"));
+                    e.setPuesto(rs.getString("puesto"));
+                    e.setSalarioBruto(rs.getInt("salarioBruto"));
+                    e.setActivo(rs.getInt("activo"));
+                    e.setUsuario(u);
+                    e.setSucursal(s);
+                    e.setPersona(p);
+                    listaEmpleados.add(e);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listaEmpleados;
+    }
+
     public List<Sucursal> getAllSucursal() throws SQLException {
         List<Sucursal> listaSucursales = new ArrayList<>();
 
@@ -316,6 +377,31 @@ public class ControllerEmpleado {
         return listaEmpleados;
     }
 
+    public void identificarEmp(User u, Empleado e) throws SQLException {
+        String query = """
+                     SELECT idEmpleado,idSucursal
+                     FROM empleado
+                     WHERE idUsuario=%d
+                     """;
+        query = String.format(query, u.getId());
+        ConexionMySql connMySQL = new ConexionMySql();
+        Connection conn = connMySQL.open();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        if (rs.next()) {
+            Sucursal s = new Sucursal();
+            s.setIdSucursal(rs.getInt("idSucursal"));
+            e.setSucursal(s);
+            e.setIdEmpleado(rs.getInt("idEmpleado"));
+            //System.out.println("idDel empleado: "+e.getIdEmpleado());
+        }
+        rs.close();
+        stmt.close();
+        conn.close();
+        connMySQL.close();
+
+    }
+
     public List<Empleado> found(String codigo) {
         List<Empleado> listaEmpleados = new ArrayList<>();
         try {
@@ -427,39 +513,38 @@ public class ControllerEmpleado {
                 + "WHERE e.idEmpleado = ?";
 
         ConexionMySql conMySQL = new ConexionMySql();
-        
-                Connection conn = conMySQL.open(); 
-                PreparedStatement stm = conn.prepareStatement(query);
 
-            stm.setString(1, e.getPersona().getNombre());
-            stm.setString(2, e.getPersona().getApPat());
-            stm.setString(3, e.getPersona().getApMat());
-            stm.setString(4, e.getPersona().getGenero());
-            stm.setString(5, e.getPersona().getFechaNac());
-            stm.setString(6, e.getPersona().getRfc());
-            stm.setString(7, e.getPersona().getCurp());
-            stm.setString(8, e.getPersona().getDomicilio());
-            stm.setString(9, e.getPersona().getcpPersona());
-            stm.setString(10, e.getPersona().getCiudad());
-            stm.setString(11, e.getPersona().getEstado());
-            stm.setString(12, e.getPersona().getTelefono());
-            stm.setString(13, e.getPersona().getFoto());
-            stm.setString(14, e.getEmail());
-            stm.setString(15, e.getCodigo());
-            stm.setString(16, e.getFechaIngreso());
-            stm.setString(17, e.getPuesto());
-            stm.setFloat(18, e.getSalarioBruto());
-            stm.setInt(19, e.getActivo());
-            stm.setString(20, e.getUsuario().getUsuario());
-            stm.setString(21, e.getUsuario().getPassw());
-            stm.setString(22, e.getUsuario().getRol());
-            stm.setInt(23, e.getIdEmpleado());
+        Connection conn = conMySQL.open();
+        PreparedStatement stm = conn.prepareStatement(query);
 
-            stm.executeUpdate();
+        stm.setString(1, e.getPersona().getNombre());
+        stm.setString(2, e.getPersona().getApPat());
+        stm.setString(3, e.getPersona().getApMat());
+        stm.setString(4, e.getPersona().getGenero());
+        stm.setString(5, e.getPersona().getFechaNac());
+        stm.setString(6, e.getPersona().getRfc());
+        stm.setString(7, e.getPersona().getCurp());
+        stm.setString(8, e.getPersona().getDomicilio());
+        stm.setString(9, e.getPersona().getcpPersona());
+        stm.setString(10, e.getPersona().getCiudad());
+        stm.setString(11, e.getPersona().getEstado());
+        stm.setString(12, e.getPersona().getTelefono());
+        stm.setString(13, e.getPersona().getFoto());
+        stm.setString(14, e.getEmail());
+        stm.setString(15, e.getCodigo());
+        stm.setString(16, e.getFechaIngreso());
+        stm.setString(17, e.getPuesto());
+        stm.setFloat(18, e.getSalarioBruto());
+        stm.setInt(19, e.getActivo());
+        stm.setString(20, e.getUsuario().getUsuario());
+        stm.setString(21, e.getUsuario().getPassw());
+        stm.setString(22, e.getUsuario().getRol());
+        stm.setInt(23, e.getIdEmpleado());
 
-            return e;
+        stm.executeUpdate();
 
-     
+        return e;
+
     }
 
     public List<Sucursal> getAllS() throws SQLException {
